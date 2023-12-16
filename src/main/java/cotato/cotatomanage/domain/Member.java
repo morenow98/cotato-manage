@@ -18,7 +18,7 @@ public class Member {
 
     @Builder
     public Member(String name, int period, int age, Part part) {
-        this.id = memberNumber++;
+        this.id = ++memberNumber;
         this.name = name;
         this.period = period;
         this.age = age;
