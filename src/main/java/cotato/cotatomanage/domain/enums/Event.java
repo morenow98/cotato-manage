@@ -1,0 +1,33 @@
+package cotato.cotatomanage.domain.enums;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
+public enum Event {
+
+    PRODUCT_MANAGER_EVENT(Part.PRODUCT_MANAGER, List.of(1, 5, 9), 10),
+    DESIGNER_EVENT(Part.DESIGNER, List.of(2, 6, 10), 10),
+    FRONT_END_EVENT(Part.FRONT_END, List.of(3, 7, 11), 10),
+    BACK_END_EVENT(Part.BACK_END, List.of(4, 8, 12), 10),
+    ;
+
+    private final Part part;
+    private final List<Integer> months;
+    private final int ability;
+
+    Event(Part part, List<Integer> months, int ability) {
+        this.part = part;
+        this.months = months;
+        this.ability = ability;
+    }
+
+    public static int getIncreasingAbility(LocalDate now) {
+        int nowMonth = now.getMonthValue();
+        Event nowEvent = Arrays.stream(values())
+                .filter(event -> event.months.contains(nowMonth))
+                .findAny()
+                .orElseThrow();
+        return nowEvent.ability;
+    }
+}
