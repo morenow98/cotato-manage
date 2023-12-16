@@ -1,5 +1,6 @@
 package cotato.cotatomanage.domain.enums;
 
+import java.util.Arrays;
 import lombok.Getter;
 
 @Getter
@@ -15,6 +16,13 @@ public enum Part {
 
     Part(String value) {
         this.value = value;
+    }
+
+    public static Part fromValue(String value) {
+        return Arrays.stream(values())
+                .filter(part -> part.value.equals(value))
+                .findAny()
+                .orElseThrow();
     }
 
 }
