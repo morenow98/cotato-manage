@@ -1,5 +1,6 @@
 package cotato.cotatomanage.domain.enums;
 
+import cotato.cotatomanage.domain.Member;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -22,12 +23,19 @@ public enum Event {
         this.ability = ability;
     }
 
-    public static int getIncreasingAbility(LocalDate now) {
-        int nowMonth = now.getMonthValue();
-        Event nowEvent = Arrays.stream(values())
-                .filter(event -> event.months.contains(nowMonth))
+    public static Event fromPart(Part part) {
+        return Arrays.stream(values())
+                .filter(event -> event.part.equals(part))
                 .findAny()
                 .orElseThrow();
-        return nowEvent.ability;
+    }
+
+    public static int getIncreasingAbility(Member member, LocalDate now) {
+        int nowMonth = now.getMonthValue();
+        Event nowEvent = fromPart(member.getPart());
+        if (nowEvent.months.contains(nowMonth)) {
+            return nowEvent.ability;
+        }
+        return 0;
     }
 }

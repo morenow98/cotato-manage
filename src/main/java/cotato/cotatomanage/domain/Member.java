@@ -29,7 +29,7 @@ public class Member {
         int ability = this.age;
         ability += currentPeriod - this.period;
         if (age < INELIGIBLE_MIN_AGE_FOR_EVENT) {
-            ability += Event.getIncreasingAbility(now);
+            ability += Event.getIncreasingAbility(this, now);
         }
         return ability;
     }
