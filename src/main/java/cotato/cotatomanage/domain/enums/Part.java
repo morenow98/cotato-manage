@@ -25,4 +25,12 @@ public enum Part {
                 .orElseThrow();
     }
 
+    public int getOrder() {
+        return switch (this) {
+            case DESIGNER -> 1;
+            case PRODUCT_MANAGER -> 2;
+            case BACK_END -> 3;
+            case FRONT_END -> 4;
+        };
+    }
 }
