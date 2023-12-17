@@ -5,7 +5,9 @@ import cotato.cotatomanage.domain.enums.Part;
 import lombok.Getter;
 
 @Getter
-public class MemberRegistrationDto {
+public class MemberRegistrationRequest {
+
+    private static final String LITERAL_PERIOD = "기";
 
     private String name;
     private String period;
@@ -14,7 +16,7 @@ public class MemberRegistrationDto {
 
     private int convertPeriod(String period) {
         return Integer.parseInt(
-                period.replace("기", "")
+                period.replace(LITERAL_PERIOD, "")
         );
     }
 
