@@ -2,6 +2,7 @@ package cotato.cotatomanage.domain;
 
 import cotato.cotatomanage.domain.dto.OrderByPartResponse;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 @Getter
+@Slf4j
 public class MemberRepository {
     private List<Member> members = new ArrayList<>();
     @Getter
@@ -21,9 +23,21 @@ public class MemberRepository {
 
     public void calculateAbility(int currentPeriod){
         members.forEach(member -> member.updateAbility(currentPeriod));
+        log.info("calculateAbility finished");
     }
 
-    public Queue<OrderByPartResponse> orderByPart() {
+    public List<Member> orderAllMembers() {
+        PriorityQueue<Member> list = new PriorityQueue<>();
+        list.addAll(members);
+        List<Member> orderedList = new ArrayList<>();
+        while (!list.isEmpty()) {
+            Member tmp = list.poll();
+            orderedList.add(tmp);
+        }
+        return orderedList;
+    }
+
+    public List<OrderByPartResponse> orderByPart() {
         PriorityQueue<OrderByPartResponse> list = new PriorityQueue<>();
         for (Part part : Part.values()) {
             OrderByPartResponse data = makeOrderByPartResponse(part);
@@ -31,7 +45,13 @@ public class MemberRepository {
                 list.add(data);
             }
         }
-        return list;
+        List<OrderByPartResponse> orderedList = new ArrayList<>();
+        while (!list.isEmpty()){
+            OrderByPartResponse tmp = list.poll();
+            log.info(tmp.getPart().name());
+            orderedList.add(tmp);
+        }
+        return orderedList;
     }
 
     private OrderByPartResponse makeOrderByPartResponse(Part part) {

@@ -15,23 +15,20 @@ public class OrderByPartResponse implements Comparable<OrderByPartResponse>{
     @Override
     public int compareTo(OrderByPartResponse o) {
         log.info(this.part.name() + " " + this.ability +" "+o.part.name() + " "+ o.ability);
-        if (ability > o.ability){
-            log.info("ability" + this.part.name() + "win");
-            return -1;
-        }
+        if (ability > o.ability) return -1; //내림차순
         else if (ability < o.ability) return 1;
         else return compareByCount(this, o);
     }
 
     private int compareByCount(OrderByPartResponse t, OrderByPartResponse o) {
-        if(t.count>o.count) return 1;
+        if(t.count>o.count) return 1; //오름차순
         else if(t.count < o.count) return -1;
         else return compareByPart(t, o);
     }
 
     private int compareByPart(OrderByPartResponse t, OrderByPartResponse o) {
-        if (t.part.getOrder() > o.part.getOrder()) return -1;
-        else return 1;
+        if (t.part.getOrder() > o.part.getOrder()) return 1; //오름차순
+        else return -1;
     }
 
     @Builder

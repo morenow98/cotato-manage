@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 @Getter
 @Slf4j
-public class Member {
+public class Member implements Comparable<Member>{
     private static final int MIN_AGE = 22;
     private static final int MAX_AGE = 30;
     private static final int CURRENT_PERIOD = 9;
@@ -71,7 +71,7 @@ public class Member {
             throw new IllegalArgumentException("이름은 3자에서 10자 사이여야 합니다.");
         }
         if (age > MAX_AGE || age < MIN_AGE) {
-            throw new IllegalArgumentException("이름은 3자에서 10자 사이여야 합니다.");
+            throw new IllegalArgumentException("나이는 ");
         }
         if (Arrays.stream(Part.values()).noneMatch(v -> v.name().equals(part))) {
             throw new IllegalArgumentException("유효하지 않은 파트입니다.");
@@ -79,4 +79,27 @@ public class Member {
     }
 
 
+    @Override
+    public int compareTo(Member o) {
+        if (this.ability > o.getAbility()) return -1;
+        else if (this.ability < o.getAbility()) return 1;
+        else return compareByAge(this, o);
+    }
+
+    private int compareByAge(Member t, Member o) {
+        if (t.age > o.age) return -1;
+        if (t.age < o.age) return 1;
+        else return compareByPeriod(t, o);
+    }
+
+    private int compareByPeriod(Member t, Member o) {
+        if (t.period.compareTo(o.period) > 0) return 1;
+        if (t.period.compareTo(o.period) < 0) return -1;
+        else return compareByName(t, o);
+    }
+
+    private int compareByName(Member t, Member o) {
+        if (t.name.compareTo(o.name) > 0) return 1;
+        else return -1;
+    }
 }

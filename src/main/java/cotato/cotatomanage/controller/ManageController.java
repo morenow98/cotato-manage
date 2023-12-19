@@ -4,6 +4,7 @@ import cotato.cotatomanage.domain.Member;
 import cotato.cotatomanage.domain.dto.AddMemberRequest;
 import cotato.cotatomanage.domain.dto.OrderByPartResponse;
 import cotato.cotatomanage.service.ManageService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +25,10 @@ public class ManageController {
     @GetMapping("/print/part/{period}")
     public ResponseEntity<?> printByPart(@PathVariable("period") int period){
         return ResponseEntity.ok().body(memberService.printByPart(period));
+    }
+
+    @GetMapping("/print/member/{period}")
+    public ResponseEntity<?> printAllMembers(@PathVariable("period") int period) {
+        return ResponseEntity.ok().body(memberService.printAllMembers(period));
     }
 }

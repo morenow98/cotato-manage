@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Queue;
 
 @Slf4j
@@ -27,9 +28,15 @@ public class ManageService {
                 .forEach(member1 -> log.info(member1.getName() + " " + member1.getPart().name() + " " + member1.getAbility()));
     }
 
-    public Queue<OrderByPartResponse> printByPart(int currentPeriod) {
+    public List<OrderByPartResponse> printByPart(int period) {
         log.info("printByPart Start");
-        memberRepository.calculateAbility(currentPeriod);
+        memberRepository.calculateAbility(period);
         return memberRepository.orderByPart();
+    }
+
+    public List<Member> printAllMembers(int period) {
+        log.info("printAllMembers Start");
+        memberRepository.calculateAbility(period);
+        return memberRepository.orderAllMembers();
     }
 }
