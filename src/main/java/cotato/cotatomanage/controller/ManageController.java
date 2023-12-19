@@ -31,4 +31,9 @@ public class ManageController {
     public ResponseEntity<?> printAllMembers(@PathVariable("period") int period) {
         return ResponseEntity.ok().body(memberService.printAllMembers(period));
     }
+
+    @GetMapping("/print/{part}/member/{period}")
+    public ResponseEntity<?> printAllMembersByPart(@PathVariable("part") String part, @PathVariable("period") int period) {
+        return ResponseEntity.ok().body(memberService.printAllMembersByPart(period,part));
+    }
 }

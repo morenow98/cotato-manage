@@ -27,14 +27,7 @@ public class MemberRepository {
     }
 
     public List<Member> orderAllMembers() {
-        PriorityQueue<Member> list = new PriorityQueue<>();
-        list.addAll(members);
-        List<Member> orderedList = new ArrayList<>();
-        while (!list.isEmpty()) {
-            Member tmp = list.poll();
-            orderedList.add(tmp);
-        }
-        return orderedList;
+        return printMemberWithOrder(members);
     }
 
     public List<OrderByPartResponse> orderByPart() {
@@ -49,6 +42,23 @@ public class MemberRepository {
         while (!list.isEmpty()){
             OrderByPartResponse tmp = list.poll();
             log.info(tmp.getPart().name());
+            orderedList.add(tmp);
+        }
+        return orderedList;
+    }
+
+    public List<Member> orderAllMembersByPart(String part) {
+        Part enumPart = Part.valueOf(part);
+        List<Member> members = findAllMembersByPart(enumPart);
+        return printMemberWithOrder(members);
+    }
+
+    private List<Member> printMemberWithOrder(List<Member> members) {
+        PriorityQueue<Member> list = new PriorityQueue<>();
+        list.addAll(members);
+        List<Member> orderedList = new ArrayList<>();
+        while (!list.isEmpty()) {
+            Member tmp = list.poll();
             orderedList.add(tmp);
         }
         return orderedList;

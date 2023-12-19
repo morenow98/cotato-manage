@@ -39,4 +39,10 @@ public class ManageService {
         memberRepository.calculateAbility(period);
         return memberRepository.orderAllMembers();
     }
+
+    public List<Member> printAllMembersByPart(int period, String part) {
+        log.info("printAllMembersByPart Start");
+        memberRepository.calculateAbility(period);
+        return memberRepository.orderAllMembersByPart(part);
+    }
 }
