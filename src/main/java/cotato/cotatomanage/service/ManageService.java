@@ -3,9 +3,11 @@ package cotato.cotatomanage.service;
 import cotato.cotatomanage.domain.Member;
 import cotato.cotatomanage.domain.enums.Part;
 import cotato.cotatomanage.dto.request.MemberRegistrationRequest;
+import cotato.cotatomanage.dto.response.MemberResponse;
 import cotato.cotatomanage.dto.response.PartResponse;
 import cotato.cotatomanage.repository.ManageRepository;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +45,7 @@ public class ManageService {
     }
 
     public List<PartResponse> getParts(int currentPeriod) {
-        List<PartResponse> partResponses = new java.util.ArrayList<>(Arrays.stream(Part.values())
+        List<PartResponse> partResponses = new ArrayList<>(Arrays.stream(Part.values())
                 .map(part -> createPartResponse(part, currentPeriod))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -52,5 +54,24 @@ public class ManageService {
         Collections.sort(partResponses);
 
         return partResponses;
+    }
+
+    public List<MemberResponse> getMembers(int currentPeriod, Optional<String> part) {
+        if (part.isPresent()) {
+            List<Member> members = manageRepository.findByPart(Part.fromValue(part.get()));
+            return getMembers(currentPeriod, members);
+        }
+        List<Member> members = manageRepository.findAll();
+        return getMembers(currentPeriod, members);
+    }
+
+    private List<MemberResponse> getMembers(int currentPeriod, List<Member> members) {
+        List<MemberResponse> memberResponses = new ArrayList<>(members.stream()
+                .map(member -> MemberResponse.of(member, currentPeriod))
+                .toList());
+
+        Collections.sort((memberResponses));
+
+        return memberResponses;
     }
 }

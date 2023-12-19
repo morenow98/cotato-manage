@@ -1,9 +1,11 @@
 package cotato.cotatomanage.controller;
 
 import cotato.cotatomanage.dto.request.MemberRegistrationRequest;
+import cotato.cotatomanage.dto.response.MemberResponse;
 import cotato.cotatomanage.dto.response.PartResponse;
 import cotato.cotatomanage.service.ManageService;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,5 +31,12 @@ public class ManageController {
     @ResponseStatus(HttpStatus.OK)
     public List<PartResponse> getParts(@RequestParam(name = "period") int currentPeriod) {
         return manageService.getParts(currentPeriod);
+    }
+
+    @GetMapping("/members")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MemberResponse> getMembers(@RequestParam(name = "period") int currentPeriod,
+                                           @RequestParam(required = false) Optional<String> part) {
+        return manageService.getMembers(currentPeriod, part);
     }
 }

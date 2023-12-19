@@ -16,6 +16,10 @@ public class ManageRepository {
         members.add(member);
     }
 
+    public List<Member> findAll() {
+        return members;
+    }
+
     public List<Member> findByPart(Part part) {
         return members.stream()
                 .filter(member -> member.getPart() == part)
