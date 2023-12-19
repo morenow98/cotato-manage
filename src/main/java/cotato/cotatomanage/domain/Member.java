@@ -14,11 +14,11 @@ public class Member {
     private static final int MAX_AGE = 30;
     private static final int CURRENT_PERIOD = 9;
 
-    private final String name;
-    private final String period;
-    private final int age;
-    private final Part part;
-    private final int ability;
+    private String name;
+    private String period;
+    private int age;
+    private Part part;
+    private int ability;
 
     @Builder
     public Member(String name, String period, int age, String part){
@@ -40,6 +40,17 @@ public class Member {
         }
 
         return age+periodAbility+partAbility;
+    }
+
+    public void updateAbility(int currentPeriod) {
+        int intPeriod = Integer.parseInt(period.split("기")[0]);
+        int periodAbility = (currentPeriod - intPeriod)*2;
+        int partAbility = 0;
+
+        if (age < 27) {
+            partAbility = getBuffPart(this.part.name());
+        }
+        this.ability = age + periodAbility + partAbility;
     }
 
     private int getBuffPart(String part) {
@@ -66,4 +77,6 @@ public class Member {
             throw new IllegalArgumentException("유효하지 않은 파트입니다.");
         }
     }
+
+
 }
