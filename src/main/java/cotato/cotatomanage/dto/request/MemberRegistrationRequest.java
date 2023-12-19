@@ -7,8 +7,6 @@ import lombok.Getter;
 @Getter
 public class MemberRegistrationRequest {
 
-    private static final String LITERAL_PERIOD = "기";
-
     private String name;
     private String period;
     private int age;
@@ -16,7 +14,7 @@ public class MemberRegistrationRequest {
 
     private int convertPeriod(String period) {
         return Integer.parseInt(
-                period.replace(LITERAL_PERIOD, "")
+                period.replace(Member.LITERAL_PERIOD, "")
         );
     }
 

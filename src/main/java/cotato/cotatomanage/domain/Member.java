@@ -12,6 +12,7 @@ public class Member {
     private static int memberNumber;
     private static final int INELIGIBLE_MIN_AGE_FOR_EVENT = 27;
     private static final int ABILITY_INCREASE_PER_PERIOD = 2;
+    public static final String LITERAL_PERIOD = "기";
 
     private final int id;
     private String name;
