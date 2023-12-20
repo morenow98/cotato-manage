@@ -15,10 +15,11 @@ public class Member {
     private Ability ability;
 
     @Builder
-    public Member(String name, int period, int age, Part part) {
+    public Member(String name, int period, int age, Part part, Ability ability) {
         this.name = name;
         this.period = period;
         this.age = age;
         this.part = part;
+        this.ability = ability;
     }
 }

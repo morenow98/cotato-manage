@@ -1,5 +1,6 @@
 package cotato.cotatomanage.service;
 
+import cotato.cotatomanage.domain.Ability;
 import cotato.cotatomanage.domain.Part;
 import cotato.cotatomanage.domain.dto.JoinMemberRequest;
 import cotato.cotatomanage.domain.entity.Member;
@@ -23,12 +24,14 @@ public class MemberService {
         int period = convertPeriodNumber(request.getPeriod());
         Part part = Part.valueOf(request.getPart());
         validateService.checkAge(request.getAge());
+        Ability ability = new Ability(request.getAge());
 
         Member createdMember = Member.builder()
                 .name(request.getName())
                 .period(period)
                 .age(request.getAge())
                 .part(part)
+                .ability(ability)
                 .build();
         memberRepository.save(createdMember);
         log.info("동아리원 등록 완료: {}", request.getName());

@@ -1,9 +1,10 @@
 package cotato.cotatomanage.domain;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 public class Ability {
 
-    private final int value;
+    private int ability;
+
+    public Ability(int age) {
+        this.ability = age;
+    }
 }
