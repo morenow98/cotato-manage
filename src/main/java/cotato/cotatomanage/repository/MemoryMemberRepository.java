@@ -1,8 +1,8 @@
 package cotato.cotatomanage.repository;
 
 import cotato.cotatomanage.domain.entity.Member;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -12,13 +12,11 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class MemoryMemberRepository implements MemberRepository {
 
-    private final Map<String, Member> repository = new HashMap<>();
+    private final List<Member> repository = new ArrayList<>();
 
     @Override
     public void save(Member member) {
-        repository.put(member.getName(), member);
+        repository.add(member);
         log.info("REPOSITORY 저장 완료");
     }
-
-
 }
