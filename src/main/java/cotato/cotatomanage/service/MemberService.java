@@ -1,8 +1,8 @@
 package cotato.cotatomanage.service;
 
-import cotato.cotatomanage.domain.Member;
 import cotato.cotatomanage.domain.Part;
 import cotato.cotatomanage.domain.dto.JoinMemberRequest;
+import cotato.cotatomanage.domain.entity.Member;
 import cotato.cotatomanage.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package cotato.cotatomanage.repository;
 
-import cotato.cotatomanage.domain.Member;
+import cotato.cotatomanage.domain.entity.Member;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

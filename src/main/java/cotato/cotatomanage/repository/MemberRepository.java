@@ -1,7 +1,7 @@
 package cotato.cotatomanage.repository;
 
 
-import cotato.cotatomanage.domain.Member;
+import cotato.cotatomanage.domain.entity.Member;
 
 public interface MemberRepository {
 

@@ -1,5 +1,7 @@
-package cotato.cotatomanage.domain;
+package cotato.cotatomanage.domain.entity;
 
+import cotato.cotatomanage.domain.Ability;
+import cotato.cotatomanage.domain.Part;
 import lombok.Builder;
 import lombok.Getter;
 
