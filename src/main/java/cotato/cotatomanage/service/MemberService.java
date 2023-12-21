@@ -59,4 +59,12 @@ public class MemberService {
                 .ability(member.calculateEachAbility(period))
                 .build();
     }
+
+    public List<MemberResponse> getPartMembers(String part, int period) {
+        List<Member> members = memberRepository.findAll();
+        return members.stream()
+                .filter(member -> Part.getPart(part).equals(member.getPart()))
+                .map(member -> buildMemberResponse(member, period))
+                .collect(Collectors.toList());
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -30,13 +31,18 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{period}")
+    @GetMapping(value = "/{period}", params = "type=all-member")
     public ResponseEntity<?> getAllMember(@PathVariable("period") int period) {
         log.info("모든 동아리원 출력 컨트롤러");
         List<MemberResponse> allMember = memberService.getAllMember(period);
         return ResponseEntity.ok().body(allMember);
     }
 
-    @GetMapping("/{period}/{part}")
-    public ResponseEntity<?> get
+    @GetMapping(value = "/{period}", params = "type=each-part")
+    public ResponseEntity<?> getEachPart(@RequestParam(name = "part") String part,
+                                         @PathVariable(name = "period") int period) {
+        log.info("특정 파트 출력 컨트롤러");
+        List<MemberResponse> partMembers = memberService.getPartMembers(part, period);
+        return ResponseEntity.ok(partMembers);
+    }
 }
