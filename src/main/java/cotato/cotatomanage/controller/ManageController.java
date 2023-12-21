@@ -33,7 +33,7 @@ public class ManageController {
         return manageService.getParts(currentPeriod);
     }
 
-    @GetMapping("/members")
+    @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     public List<MemberResponse> getMembers(@RequestParam(name = "period") int currentPeriod,
                                            @RequestParam(required = false) Optional<String> part) {
