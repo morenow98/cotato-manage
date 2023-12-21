@@ -1,6 +1,5 @@
 package cotato.cotatomanage.domain.entity;
 
-import cotato.cotatomanage.domain.Ability;
 import cotato.cotatomanage.domain.Part;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,10 +11,10 @@ public class Member {
     private int period;
     private int age;
     private Part part;
-    private Ability ability;
+    private int ability;
 
     @Builder
-    public Member(String name, int period, int age, Part part, Ability ability) {
+    public Member(String name, int period, int age, Part part, int ability) {
         this.name = name;
         this.period = period;
         this.age = age;
