@@ -31,9 +31,12 @@ public class MemberController {
     }
 
     @GetMapping("/{period}")
-    public ResponseEntity<?> getEachPart(@PathVariable("period") int period) {
+    public ResponseEntity<?> getAllMember(@PathVariable("period") int period) {
         log.info("모든 동아리원 출력 컨트롤러");
         List<MemberResponse> allMember = memberService.getAllMember(period);
         return ResponseEntity.ok().body(allMember);
     }
+
+    @GetMapping("/{period}/{part}")
+    public ResponseEntity<?> get
 }
