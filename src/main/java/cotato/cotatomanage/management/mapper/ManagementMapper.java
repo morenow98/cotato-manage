@@ -9,10 +9,12 @@ import cotato.cotatomanage.management.vo.MemberInfoVo;
 import cotato.cotatomanage.management.dto.response.MemberInfoListResponse;
 import cotato.cotatomanage.management.vo.PartInfoVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 @RequiredArgsConstructor
 public class ManagementMapper {
 

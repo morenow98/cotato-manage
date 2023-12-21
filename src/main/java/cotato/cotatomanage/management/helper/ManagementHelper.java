@@ -3,10 +3,12 @@ package cotato.cotatomanage.management.helper;
 import cotato.cotatomanage.management.domain.Part;
 import cotato.cotatomanage.management.vo.MemberInfoVo;
 import cotato.cotatomanage.management.vo.PartInfoVo;
+import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
 import java.util.List;
 
+@Component
 public class ManagementHelper {
 
     public void sortPart(List<PartInfoVo> partInfoVoList) {
