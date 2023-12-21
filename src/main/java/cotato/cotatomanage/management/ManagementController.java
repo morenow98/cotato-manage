@@ -17,13 +17,13 @@ public class ManagementController {
 
     private final ManagementService managementService;
 
-    @PostMapping
+    @PostMapping("/register")
     public void registerMember(RegisterRequest registerRequest) {
         log.info("멤버 등록");
         managementService.registerMember(registerRequest);
     }
 
-    @GetMapping
+    @GetMapping("/part")
     public MemberInfoListResponse getPartAbility(
             @RequestParam Part part,
             @RequestParam int periodNow
@@ -32,7 +32,7 @@ public class ManagementController {
         return managementService.getPartAbility(part, periodNow);
     }
 
-    @GetMapping
+    @GetMapping("/stats")
     public PartInfoListResponse getPartStatAbility(@RequestParam int periodNow) {
         log.info("파트별 실력 통계");
         return managementService.getPartStatsAbility(periodNow);
