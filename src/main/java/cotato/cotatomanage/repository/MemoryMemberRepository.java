@@ -19,4 +19,9 @@ public class MemoryMemberRepository implements MemberRepository {
         repository.add(member);
         log.info("REPOSITORY 저장 완료");
     }
+
+    @Override
+    public List<Member> findAll() {
+        return repository;
+    }
 }

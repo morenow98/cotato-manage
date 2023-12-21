@@ -42,21 +42,21 @@ public class MemberService {
         return Integer.parseInt(period.replace(PERIOD_END, NONE));
     }
 
-    public List<MemberResponse> getAllMember() {
+    public List<MemberResponse> getAllMember(int period) {
         List<Member> members = memberRepository.findAll();
         return members.stream()
                 .sorted(Member::compareTo)
-                .map(this::buildResponse)
+                .map(member -> buildMemberResponse(member, period))
                 .collect(Collectors.toList());
     }
 
-    private MemberResponse buildResponse(Member member) {
+    private MemberResponse buildMemberResponse(Member member, int period) {
         return MemberResponse.builder()
                 .name(member.getName())
                 .period(member.getPeriod() + PERIOD_END)
                 .age(member.getAge())
                 .part(member.getPart().getKey())
-                .ability(member.getAbility())
+                .ability(member.calculateEachAbility(period))
                 .build();
     }
 }
