@@ -2,8 +2,11 @@ package cotato.cotatomanage.service;
 
 import cotato.cotatomanage.domain.Part;
 import cotato.cotatomanage.domain.dto.JoinMemberRequest;
+import cotato.cotatomanage.domain.dto.MemberResponse;
 import cotato.cotatomanage.domain.entity.Member;
 import cotato.cotatomanage.repository.MemberRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,7 @@ public class MemberService {
 
     public void createMember(JoinMemberRequest request) {
         int period = convertPeriodNumber(request.getPeriod());
-        Part part = Part.valueOf(request.getPart());
+        Part part = Part.getPart(request.getPart());
         validateService.checkAge(request.getAge());
 
         Member createdMember = Member.builder()
@@ -37,5 +40,23 @@ public class MemberService {
 
     private int convertPeriodNumber(String period) {
         return Integer.parseInt(period.replace(PERIOD_END, NONE));
+    }
+
+    public List<MemberResponse> getAllMember() {
+        List<Member> members = memberRepository.findAll();
+        return members.stream()
+                .sorted(Member::compareTo)
+                .map(this::buildResponse)
+                .collect(Collectors.toList());
+    }
+
+    private MemberResponse buildResponse(Member member) {
+        return MemberResponse.builder()
+                .name(member.getName())
+                .period(member.getPeriod() + PERIOD_END)
+                .age(member.getAge())
+                .part(member.getPart().getKey())
+                .ability(member.getAbility())
+                .build();
     }
 }
