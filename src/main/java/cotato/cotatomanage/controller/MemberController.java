@@ -45,4 +45,11 @@ public class MemberController {
         List<MemberResponse> partMembers = memberService.getPartMembers(part, period);
         return ResponseEntity.ok(partMembers);
     }
+
+    @GetMapping("/part/{period}")
+    public ResponseEntity<?> getAllPart(@PathVariable("period") int period) {
+        log.info("{} 기수 모든 파트 출력 컨트롤러", period);
+        List<PartResponse> allPart = memberService.getAllPart(period);
+        return ResponseEntity.ok(allPart);
+    }
 }

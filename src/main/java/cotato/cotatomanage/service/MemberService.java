@@ -67,4 +67,33 @@ public class MemberService {
                 .map(member -> buildMemberResponse(member, period))
                 .collect(Collectors.toList());
     }
+
+    public List<PartResponse> getAllPart(int period) {
+        return Arrays.stream(Part.values())
+                .map(part -> getPartResponse(part, period)).filter(Objects::nonNull)
+                .sorted(PartResponse::compareTo)
+                .toList();
+    }
+
+    private PartResponse getPartResponse(Part part, int period) {
+        List<Member> partMember = memberRepository.findByPart(part);
+        partMember.forEach(member -> member.calculateEachAbility(period));
+        if (partMember.isEmpty()) {
+            return null;
+        }
+
+        int average = calculateAbilityAverage(partMember);
+        return PartResponse.builder()
+                .part(part.getKey())
+                .ability(average)
+                .count(partMember.size())
+                .build();
+    }
+
+    private int calculateAbilityAverage(List<Member> partMember) {
+        return (int) partMember.stream()
+                .mapToInt(Member::getAbility)
+                .average()
+                .orElse(0);
+    }
 }
