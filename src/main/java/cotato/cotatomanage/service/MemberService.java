@@ -3,9 +3,12 @@ package cotato.cotatomanage.service;
 import cotato.cotatomanage.domain.Part;
 import cotato.cotatomanage.domain.dto.JoinMemberRequest;
 import cotato.cotatomanage.domain.dto.MemberResponse;
+import cotato.cotatomanage.domain.dto.PartResponse;
 import cotato.cotatomanage.domain.entity.Member;
 import cotato.cotatomanage.repository.MemberRepository;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +48,8 @@ public class MemberService {
     public List<MemberResponse> getAllMember(int period) {
         List<Member> members = memberRepository.findAll();
         return members.stream()
-                .sorted(Member::compareTo)
                 .map(member -> buildMemberResponse(member, period))
+                .sorted(MemberResponse::compareTo)
                 .collect(Collectors.toList());
     }
 

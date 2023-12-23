@@ -25,6 +25,6 @@ public enum Part {
         return Arrays.stream(Part.values())
                 .filter(m -> m.getKey().equals(key))
                 .findAny()
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalArgumentException("해당 파트 인원이 없습니다."));
     }
 }

@@ -2,6 +2,7 @@ package cotato.cotatomanage.controller;
 
 import cotato.cotatomanage.domain.dto.JoinMemberRequest;
 import cotato.cotatomanage.domain.dto.MemberResponse;
+import cotato.cotatomanage.domain.dto.PartResponse;
 import cotato.cotatomanage.service.MemberService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
