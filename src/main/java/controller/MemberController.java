@@ -3,15 +3,18 @@ package controller;
 import domain.MemberRepository;
 import domain.Member;
 import domain.MemberRequest;
+import domain.Part;
 import exception.MemberNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class MemberController {
@@ -63,4 +66,45 @@ public class MemberController {
         return ResponseEntity.created(location).build();
     }
 
+    @GetMapping("/part")
+    public ResponseEntity<List<Map<String, String>>> getParts() {
+        List<Member> allMembers = memberRepository.findAll();
+
+        Map<Part, List<Member>> membersByPart = allMembers.stream()
+                .collect(Collectors.groupingBy(Member::getPart));
+
+        List<Map<String, String>> partStats = new ArrayList<>();
+
+        membersByPart.forEach((part, members) -> {
+            if (!members.isEmpty()) {
+                int totalAbility = members.stream().mapToInt(Member::getAbility).sum();
+                int averageAbility = totalAbility / members.size();
+                int count = members.size();
+
+                Map<String, String> partStat = new HashMap<>();
+                partStat.put("part", part.name());
+                partStat.put("ability", String.valueOf(averageAbility));
+                partStat.put("count", String.valueOf(count));
+
+                partStats.add(partStat);
+            }
+        });
+
+        partStats.sort((stat1, stat2) -> {
+            int abilityComparison = Integer.compare(Integer.parseInt(stat2.get("ability")), Integer.parseInt(stat1.get("ability")));
+            if (abilityComparison != 0) {
+                return abilityComparison;
+            } else {
+                int countComparison = Integer.compare(Integer.parseInt(stat1.get("count")), Integer.parseInt(stat2.get("count")));
+                if (countComparison != 0) {
+                    return countComparison;
+                } else {
+                    List<String> partOrder = Arrays.asList("Designer", "PM", "BackEnd", "FrontEnd");
+                    return partOrder.indexOf(stat1.get("part")) - partOrder.indexOf(stat2.get("part"));
+                }
+            }
+        });
+
+        return new ResponseEntity<>(partStats, HttpStatus.OK);
+    }
 }
