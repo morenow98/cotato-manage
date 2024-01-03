@@ -135,4 +135,36 @@ public class MemberController {
                 .collect(Collectors.toList());
         return new ResponseEntity<>(individualStats, HttpStatus.OK);
     }
-}
+
+    @GetMapping("/{part}/individual-stats")
+    public ResponseEntity<List<Map<String, String>>> getPartIndividualStats(@PathVariable(name = "part") String part){
+        Part requestedPart = Part.valueOf(part);
+
+        List<Member> partMembers = memberRepository.findAll().stream()
+                .filter(member -> member.getPart() == requestedPart)
+                        .collect(Collectors.toList());
+
+        List<Member> sortedPartMembers = partMembers.stream()
+                .sorted(Comparator
+                        .comparing(Member::getAbility).reversed()
+                        .thenComparing(Member::getAge, Comparator.reverseOrder())
+                        .thenComparing(Member::getPeriod)
+                        .thenComparing(Member::getName))
+                .collect(Collectors.toList());
+
+        List<Map<String, String>> partIndividualStats = sortedPartMembers.stream()
+                .map(member -> {
+                    Map<String, String> stats = new HashMap<>();
+                    stats.put("name", member.getName());
+                    stats.put("period", member.getPeriod());
+                    stats.put("age", String.valueOf(member.getAge()));
+                    stats.put("part", member.getPart().name());
+                    stats.put("ability", String.valueOf(member.getAbility()));
+                    return stats;
+                })
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(partIndividualStats, HttpStatus.OK);
+    }
+    }
+
