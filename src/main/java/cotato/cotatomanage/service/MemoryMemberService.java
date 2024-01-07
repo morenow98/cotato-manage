@@ -42,18 +42,21 @@ public class MemoryMemberService {
      * 모든 멤버 출력
      */
 
-    public List<MemberResponse> getAllMember(){
+    public List<MemberResponse> getAllMember(int period){
         return memberRepository.findAll().stream()
-                .map(member -> MemberResponse.builder()
-                        .name(member.getName())
-                        .period(Integer.toString(member.getPeriod()) + "기")
-                        .age(member.getAge())
-                        .part(member.getPart().getKey())
-                        .ability(member.getAbility())
-                        .build())
+                .map(member -> buildMemberResponse(member,period))
                 .collect(Collectors.toList());
     }
 
+    public MemberResponse buildMemberResponse(Member member, int period){
+        return MemberResponse.builder()
+                .name(member.getName())
+                .period(member.getPeriod() +"기")
+                .age(member.getAge())
+                .part(member.getPart().getKey())
+                .ability(member.calculateAbility(period,member.getPart()))
+                .build();
+    }
 
     /**
      * 기수별 모든 파트 출력

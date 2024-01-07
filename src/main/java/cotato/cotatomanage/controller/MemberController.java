@@ -20,17 +20,28 @@ public class MemberController {
 
     private final MemoryMemberService memberService;
 
+    /**
+     * 회원 등록
+     */
     @PostMapping("/join")
     public ResponseEntity<?> joinMember(@RequestBody JoinMemberRequest request){
         memberService.joinMember(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-    @GetMapping("/part/all")
-    public ResponseEntity<?> getAllMember(){
-        List<MemberResponse> allMember = memberService.getAllMember();
+
+    /**
+     * 전체 멤버 조회
+     */
+    @GetMapping("/part/{period}/all")
+    public ResponseEntity<?> getAllMember(@PathVariable("period") int period){
+        List<MemberResponse> allMember = memberService.getAllMember(period);
         return ResponseEntity.ok(allMember);
 
     }
+
+    /**
+     * 기수별 전체 멤버 조회
+     */
     @GetMapping("/part/{period}")
     public ResponseEntity<?> getAllPartByPeriod(@PathVariable("period") int period){
         List<PartResponse> allPartByPeriod = memberService.getAllPartByPeriod(period);
