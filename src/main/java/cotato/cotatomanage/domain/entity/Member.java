@@ -8,17 +8,20 @@ import lombok.Getter;
 public class Member {
 
     private String name;
-    private Integer period;
-    private Integer age;
+    private int period;
+    private int age;
     private Part part;
+
+    private int ability;
 
 //    private Integer ability;
 
     @Builder
-    public Member(String name, Integer period, Integer age, Part part){
+    public Member(String name, Integer period, Integer age, Part part, Integer ability){
         this.name = name;
         this.period = period;
         this.age = age;
         this.part = part;
+        this.ability = ability;
     }
 }
