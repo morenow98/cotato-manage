@@ -4,6 +4,7 @@ package cotato.cotatomanage.service;
 import com.fasterxml.jackson.core.io.schubfach.DoubleToDecimal;
 import cotato.cotatomanage.domain.Part;
 import cotato.cotatomanage.domain.dto.JoinMemberRequest;
+import cotato.cotatomanage.domain.dto.MemberResponse;
 import cotato.cotatomanage.domain.dto.PartResponse;
 import cotato.cotatomanage.domain.entity.Member;
 import cotato.cotatomanage.repository.MemoryMemberRepository;
@@ -20,6 +21,10 @@ public class MemoryMemberService {
 
     private final MemoryMemberRepository memberRepository;
 
+
+    /**
+     * 회원 등록
+     */
     public void joinMember(JoinMemberRequest request){
 
         int period = StringToInt(request.getPeriod());
@@ -33,6 +38,26 @@ public class MemoryMemberService {
         memberRepository.save(member);
     }
 
+    /**
+     * 모든 멤버 출력
+     */
+
+    public List<MemberResponse> getAllMember(){
+        return memberRepository.findAll().stream()
+                .map(member -> MemberResponse.builder()
+                        .name(member.getName())
+                        .period(Integer.toString(member.getPeriod()) + "기")
+                        .age(member.getAge())
+                        .part(member.getPart().getKey())
+                        .ability(member.getAbility())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+
+    /**
+     * 기수별 모든 파트 출력
+     */
     public List<PartResponse> getAllPartByPeriod(Integer period){
         return Arrays.stream(Part.values())
                 .map(part -> getEachPart(part,period))

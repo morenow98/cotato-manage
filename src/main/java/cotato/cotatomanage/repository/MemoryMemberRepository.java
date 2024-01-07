@@ -25,4 +25,9 @@ public class MemoryMemberRepository {
                 .filter(m -> m.getPart() == part)
                 .collect(Collectors.toList());
     }
+
+    public List<Member> findAll(){
+        return memberRepository.stream()
+                .collect(Collectors.toList());
+    }
 }
