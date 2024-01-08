@@ -9,6 +9,7 @@ import cotato.cotatomanage.domain.dto.PartResponse;
 import cotato.cotatomanage.domain.entity.Member;
 import cotato.cotatomanage.repository.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemoryMemberService {
 
     private final MemoryMemberRepository memberRepository;
@@ -25,54 +27,57 @@ public class MemoryMemberService {
     /**
      * 회원 등록
      */
-    public void joinMember(JoinMemberRequest request){
+    public void joinMember(JoinMemberRequest request) {
 
         int period = StringToInt(request.getPeriod());
+        validateMemberAge(request.getAge());
+
         Member member = Member.builder()
                 .name(request.getName())
                 .period(period)
-                .age(Integer.parseInt(request.getAge()))
+                .age(request.getAge())
                 .part(Part.getPart(request.getPart()))
-                .ability(Integer.parseInt(request.getAge()))
+                .ability(request.getAge())
                 .build();
         memberRepository.save(member);
+        log.info("동아리원 등록: {}", request.getName());
     }
 
     /**
      * 모든 멤버 출력
      */
 
-    public List<MemberResponse> getAllMember(int period){
+    public List<MemberResponse> getAllMember(int period) {
         return memberRepository.findAll().stream()
-                .map(member -> buildMemberResponse(member,period))
+                .map(member -> buildMemberResponse(member, period))
                 .collect(Collectors.toList());
     }
 
-    public MemberResponse buildMemberResponse(Member member, int period){
+    public MemberResponse buildMemberResponse(Member member, int period) {
         return MemberResponse.builder()
                 .name(member.getName())
-                .period(member.getPeriod() +"기")
+                .period(member.getPeriod() + "기")
                 .age(member.getAge())
                 .part(member.getPart().getKey())
-                .ability(member.calculateAbility(period,member.getPart()))
+                .ability(member.calculateAbility(period, member.getPart()))
                 .build();
     }
 
     /**
      * 기수별 모든 파트 출력
      */
-    public List<PartResponse> getAllPartByPeriod(Integer period){
+    public List<PartResponse> getAllPartByPeriod(Integer period) {
         return Arrays.stream(Part.values())
-                .map(part -> getEachPart(part,period))
+                .map(part -> getEachPart(part, period))
                 .toList();
     }
 
-    private PartResponse getEachPart(Part part, int period){
+    private PartResponse getEachPart(Part part, int period) {
         List<Member> partMembersAll = memberRepository.findByPart(part);
         List<Member> partMembersPeriod = partMembersAll.stream()
-                .filter(member ->member.getPeriod() == period)
+                .filter(member -> member.getPeriod() == period)
                 .collect(Collectors.toList());
-        if (partMembersPeriod.isEmpty()){
+        if (partMembersPeriod.isEmpty()) {
             return null;
         }
         return PartResponse.builder()
@@ -83,17 +88,25 @@ public class MemoryMemberService {
     }
 
     private static int StringToInt(String inputString) {
-        String numericPart = inputString.replaceAll("[^0-9]","");
-        try{
+        String numericPart = inputString.replaceAll("[^0-9]", "");
+        try {
             return Integer.parseInt(numericPart);
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return -1;
         }
     }
 
-    private double getAbilityAverage(List<Member> partMembers){
+    private double getAbilityAverage(List<Member> partMembers) {
         return partMembers.stream()
                 .mapToInt(Member::getAbility)
                 .average().getAsDouble();
+    }
+
+    private void validateMemberAge(int age) {
+        if (age>30) {
+            throw new IllegalArgumentException("너무 늙었습니다!");
+        } else if (age<22) {
+            throw new IllegalArgumentException("너무 어립니다!");
+        }
     }
 }

@@ -11,7 +11,7 @@ public class JoinMemberRequest {
 
     private String name;
     private String period;
-    private String age;
+    private int age;
     private String part;
 
 }

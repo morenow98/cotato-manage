@@ -18,7 +18,7 @@ public class Member {
 
     private int ability;
 
-//    private Integer ability;
+
 
     @Builder
     public Member(String name, Integer period, Integer age, Part part, Integer ability){
