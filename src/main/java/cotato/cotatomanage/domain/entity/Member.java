@@ -54,4 +54,8 @@ public class Member {
         return false;
     }
 
+//    @Override
+//    public int compareTo(Member o) {
+//        return o.getAbility() - this.getAbility();
+//    }
 }

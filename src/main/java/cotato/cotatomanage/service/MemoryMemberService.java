@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,6 +51,7 @@ public class MemoryMemberService {
     public List<MemberResponse> getAllMember(int period) {
         return memberRepository.findAll().stream()
                 .map(member -> buildMemberResponse(member, period))
+                .sorted()
                 .collect(Collectors.toList());
     }
 
@@ -69,9 +71,14 @@ public class MemoryMemberService {
     public List<PartResponse> getAllPartByPeriod(Integer period) {
         return Arrays.stream(Part.values())
                 .map(part -> getEachPart(part, period))
-                .toList();
+                .filter(Objects::nonNull).sorted().toList();
     }
 
+    /**
+     * 기수별 각 파트 멤버
+     * ex) param -> BACKEND, 8기
+     * return 8기 백엔드 멤버 전부
+     */
     private PartResponse getEachPart(Part part, int period) {
         List<Member> partMembersAll = memberRepository.findByPart(part);
         List<Member> partMembersPeriod = partMembersAll.stream()
@@ -82,7 +89,7 @@ public class MemoryMemberService {
         }
         return PartResponse.builder()
                 .part(part.getKey())
-                .ability((int) getAbilityAverage(partMembersPeriod))
+                .ability(getAbilityAverage(partMembersPeriod))
                 .count(partMembersPeriod.size())
                 .build();
     }
@@ -96,10 +103,11 @@ public class MemoryMemberService {
         }
     }
 
-    private double getAbilityAverage(List<Member> partMembers) {
-        return partMembers.stream()
+    private int getAbilityAverage(List<Member> partMembers) {
+        return (int) partMembers.stream()
                 .mapToInt(Member::getAbility)
-                .average().getAsDouble();
+                .average()
+                .orElse(0);
     }
 
     private void validateMemberAge(int age) {

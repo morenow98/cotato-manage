@@ -8,11 +8,11 @@ import java.util.List;
 
 @Getter
 public enum Part {
-    
-    FRONTEND("프론트엔드", List.of(Month.MARCH, Month.JULY, Month.NOVEMBER)),
-    BACKEND("백엔드", List.of(Month.APRIL, Month.AUGUST,Month.DECEMBER)),
+
     DESIGNER("디자이너", List.of(Month.FEBRUARY, Month.JUNE, Month.OCTOBER)),
-    PRODUCT_MANAGER("기획자", List.of(Month.JANUARY, Month.MARCH, Month.SEPTEMBER))
+    PRODUCT_MANAGER("기획자", List.of(Month.JANUARY, Month.MARCH, Month.SEPTEMBER)),
+    BACKEND("백엔드", List.of(Month.APRIL, Month.AUGUST,Month.DECEMBER)),
+    FRONTEND("프론트엔드", List.of(Month.MARCH, Month.JULY, Month.NOVEMBER))
     ;
 
     private final String key;
