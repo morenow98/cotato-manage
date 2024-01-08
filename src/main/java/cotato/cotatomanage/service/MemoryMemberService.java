@@ -55,6 +55,14 @@ public class MemoryMemberService {
                 .collect(Collectors.toList());
     }
 
+    public List<MemberResponse> getAllPartMember(Part part, int period) {
+        return memberRepository.findAll().stream()
+                .map(member -> buildMemberResponse(member, period))
+                .filter(memberResponse -> memberResponse.getPart() == part.getKey())
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
     public MemberResponse buildMemberResponse(Member member, int period) {
         return MemberResponse.builder()
                 .name(member.getName())
@@ -76,8 +84,6 @@ public class MemoryMemberService {
 
     /**
      * 기수별 각 파트 멤버
-     * ex) param -> BACKEND, 8기
-     * return 8기 백엔드 멤버 전부
      */
     private PartResponse getEachPart(Part part, int period) {
         List<Member> partMembersAll = memberRepository.findByPart(part);

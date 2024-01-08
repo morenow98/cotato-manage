@@ -1,5 +1,6 @@
 package cotato.cotatomanage.controller;
 
+import cotato.cotatomanage.domain.Part;
 import cotato.cotatomanage.domain.dto.JoinMemberRequest;
 import cotato.cotatomanage.domain.dto.MemberResponse;
 import cotato.cotatomanage.domain.dto.PartResponse;
@@ -36,7 +37,11 @@ public class MemberController {
     public ResponseEntity<?> getAllMember(@PathVariable("period") int period){
         List<MemberResponse> allMember = memberService.getAllMember(period);
         return ResponseEntity.ok(allMember);
-
+    }
+    @GetMapping("/part/{period}/all/{partKey}")
+    public ResponseEntity<?> getAllMember(@PathVariable int period, @PathVariable String partKey){
+        List<MemberResponse> allPartMember = memberService.getAllPartMember(Part.getPart(partKey), period);
+        return ResponseEntity.ok(allPartMember);
     }
 
     /**
